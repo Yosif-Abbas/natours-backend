@@ -1,0 +1,115 @@
+import path from 'path';
+import express from 'express';
+import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+import hpp from 'hpp';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+
+import AppError from './utils/appError';
+import globalErrorHandler from './controllers/errorController';
+
+import tourRouter from './routes/tourRoutes';
+import authRouter from './routes/authRoutes';
+import userRouter from './routes/userRoutes';
+import reviewRouter from './routes/reviewRoutes';
+import bookingRouter from './routes/bookingRoutes';
+
+// import { swaggerUi, specs } from './config/swagger';
+import { requestLogger, errorLogger, securityLogger, businessLogger } from './middleware/logger';
+
+import config from './config/envValidation';
+
+const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// 1️⃣ CORS Configuration
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:8000', 'https://yourdomain.com'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
+// 2️⃣ Serve static files
+app.use(express.static(path.join(__dirname, '../public')));
+
+// 3️⃣ Limiters, middleware, etc.
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour!.',
+});
+app.use('/api', limiter);
+
+// 4️⃣ Conditional Helmet CSP
+app.use(helmet());
+
+// 5️⃣ Logging middleware
+app.use(requestLogger);
+app.use(securityLogger);
+app.use(businessLogger);
+
+// Morgan HTTP logging (in addition to our custom logger)
+if (config.env === 'development') {
+  app.use(morgan('dev'));
+} else {
+  app.use(morgan('combined'));
+}
+
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
+app.use(mongoSanitize());
+app.use(xss());
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  }),
+);
+
+app.use((req, res, next) => {
+  req.created_at = new Date().toISOString();
+  next();
+});
+
+// API Documentation
+// app.use(
+//   '/api-docs',
+//   swaggerUi.serve,
+//   swaggerUi.setup(specs, {
+//     explorer: true,
+//     customCss: '.swagger-ui .topbar { display: none }',
+//     customSiteTitle: 'Natours API Documentation',
+//   }),
+// );
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
+
+// Error logging middleware (must be before global error handler)
+app.use(errorLogger);
+
+app.use(globalErrorHandler);
+
+export default app;
