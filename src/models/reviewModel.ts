@@ -88,4 +88,5 @@ reviewSchema.post(
 );
 
 const Review = mongoose.model<IReview, ReviewModel>('Review', reviewSchema);
+
 export default Review;

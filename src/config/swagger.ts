@@ -1,6 +1,5 @@
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const config = require('./envValidation.ts');
+import swaggerJsdoc from 'swagger-jsdoc';
+import config from './envValidation';
 
 const options = {
   definition: {
@@ -289,36 +288,25 @@ const options = {
             },
           },
         },
-        Error: {
-          type: 'object',
-          properties: {
-            status: {
-              type: 'string',
-              example: 'error',
-            },
-            message: {
-              type: 'string',
-              example: 'Something went wrong!',
-            },
-          },
-        },
+        // Error: {
+        //   type: 'object',
+        //   properties: {
+        //     status: {
+        //       type: 'string',
+        //       example: 'error',
+        //     },
+        //     message: {
+        //       type: 'string',
+        //       example: 'Something went wrong!',
+        //     },
+        //   },
+        // },
       },
     },
-    security: [
-      {
-        bearerAuth: [],
-      },
-      {
-        cookieAuth: [],
-      },
-    ],
   },
-  apis: ['./routes/*.js', './controllers/*.js'], // paths to files containing OpenAPI definitions
+  apis: ['src/routes/*.ts', 'src/controllers/*.ts'],
 };
 
 const specs = swaggerJsdoc(options);
 
-module.exports = {
-  swaggerUi,
-  specs,
-};
+export default specs;

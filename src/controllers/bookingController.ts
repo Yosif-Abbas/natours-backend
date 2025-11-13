@@ -1,4 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 import Tour from '../models/tourModel';
 import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';

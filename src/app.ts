@@ -1,5 +1,8 @@
 import path from 'path';
 import express from 'express';
+
+import swaggerUi from 'swagger-ui-express';
+
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
@@ -8,6 +11,7 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import specs from './config/swagger';
 
 import AppError from './utils/appError';
 import globalErrorHandler from './controllers/errorController';
@@ -29,13 +33,15 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1️⃣ CORS Configuration
-const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:8000', 'https://yourdomain.com'],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+// const corsOptions = {
+//   origin: ['http://localhost:3000', 'http://localhost:8000', 'https://yourdomain.com'],
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
 
 // 2️⃣ Serve static files
 app.use(express.static(path.join(__dirname, '../public')));
@@ -87,15 +93,16 @@ app.use((req, res, next) => {
 });
 
 // API Documentation
-// app.use(
-//   '/api-docs',
-//   swaggerUi.serve,
-//   swaggerUi.setup(specs, {
-//     explorer: true,
-//     customCss: '.swagger-ui .topbar { display: none }',
-//     customSiteTitle: 'Natours API Documentation',
-//   }),
-// );
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'Natours API Documentation',
+  }),
+);
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/auth', authRouter);

@@ -11,32 +11,6 @@ import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
 import { deleteOne, updateOne, createOne, getOne, getAll } from './handlerFactory';
 
-/**
- * @swagger
- * /api/v1/tours/top-5-cheap:
- *   get:
- *     summary: Get top 5 cheapest tours
- *     description: Retrieve the top 5 cheapest tours sorted by ratings and price
- *     tags: [Tours]
- *     responses:
- *       200:
- *         description: Successful response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: success
- *                 results:
- *                   type: number
- *                   example: 5
- *                 data:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Tour'
- */
 export function aliasTopTours(req: Request, res: Response, next: NextFunction) {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
