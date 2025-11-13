@@ -43,7 +43,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
 
 // 2️⃣ Serve static files
-app.use(express.static(path.join(__dirname, '../public')));
+// app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // 3️⃣ Limiters, middleware, etc.
 const limiter = rateLimit({
@@ -54,7 +55,11 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // 4️⃣ Conditional Helmet CSP
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  }),
+);
 
 // Morgan HTTP logging
 if (config.env === 'development') {
