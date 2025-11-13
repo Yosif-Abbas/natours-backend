@@ -19,12 +19,12 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${config.port}`,
-        description: 'Development server',
+        url: 'https://api.natours.com/api/v1',
+        description: 'Production server',
       },
       {
-        url: 'https://api.natours.com',
-        description: 'Production server',
+        url: `http://127.0.0.1:${config.port}/api/v1`,
+        description: 'Development server',
       },
     ],
     components: {

@@ -194,13 +194,9 @@ Logs are stored in the `logs/` directory with daily rotation:
 natours/
 ├── config/                 # Configuration files
 │   ├── envValidation.js    # Environment validation
-│   ├── logger.js          # Winston logger setup
 │   ├── redis.js           # Redis configuration
 │   └── swagger.js         # API documentation
 ├── controllers/           # Route controllers
-├── middleware/            # Custom middleware
-│   ├── cache.js          # Caching middleware
-│   └── logger.js         # Logging middleware
 ├── models/               # Mongoose models
 ├── routes/               # Express routes
 ├── tests/                # Test files

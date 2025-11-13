@@ -23,7 +23,6 @@ import reviewRouter from './routes/reviewRoutes';
 import bookingRouter from './routes/bookingRoutes';
 
 // import { swaggerUi, specs } from './config/swagger';
-import { requestLogger, errorLogger, securityLogger, businessLogger } from './middleware/logger';
 
 import config from './config/envValidation';
 
@@ -57,12 +56,7 @@ app.use('/api', limiter);
 // 4️⃣ Conditional Helmet CSP
 app.use(helmet());
 
-// 5️⃣ Logging middleware
-app.use(requestLogger);
-app.use(securityLogger);
-app.use(businessLogger);
-
-// Morgan HTTP logging (in addition to our custom logger)
+// Morgan HTTP logging
 if (config.env === 'development') {
   app.use(morgan('dev'));
 } else {
@@ -115,7 +109,6 @@ app.all('*', (req, res, next) => {
 });
 
 // Error logging middleware (must be before global error handler)
-app.use(errorLogger);
 
 app.use(globalErrorHandler);
 
