@@ -11,7 +11,6 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-
 import specs from './config/swagger';
 
 import AppError from './utils/appError';
@@ -29,34 +28,24 @@ import config from './config/envValidation';
 
 const app = express();
 
-app.set('view engine', 'pug');
-// app.set('views', path.join(__dirname, 'views'));
-
 // 1️⃣ CORS Configuration
-// const corsOptions = {
-//   origin: ['http://localhost:3000', 'http://localhost:8000', 'https://yourdomain.com'],
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// };
-
-// app.use(cors(corsOptions));
-
 app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
-
-// API Documentation
 
 app.use(
   '/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(specs, {
     explorer: true,
-    customCss: '.swagger-ui .topbar { display: none }',
+    customCssUrl: 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.10.3/swagger-ui.css',
+    customJs: [
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.10.3/swagger-ui-bundle.js',
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.10.3/swagger-ui-standalone-preset.js',
+    ],
     customSiteTitle: 'Natours API Documentation',
   }),
 );
 
 // 2️⃣ Serve static files
-// app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 // 3️⃣ Limiters, middleware, etc.
@@ -103,6 +92,8 @@ app.use((req, res, next) => {
   req.created_at = new Date().toISOString();
   next();
 });
+
+// API Documentation
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/auth', authRouter);
