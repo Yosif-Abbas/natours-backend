@@ -11,6 +11,7 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+
 import specs from './config/swagger';
 
 import AppError from './utils/appError';
@@ -41,6 +42,18 @@ app.set('view engine', 'pug');
 // app.use(cors(corsOptions));
 
 app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
+
+// API Documentation
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'Natours API Documentation',
+  }),
+);
 
 // 2️⃣ Serve static files
 // app.use(express.static(path.join(__dirname, '../public')));
@@ -90,18 +103,6 @@ app.use((req, res, next) => {
   req.created_at = new Date().toISOString();
   next();
 });
-
-// API Documentation
-
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(specs, {
-    explorer: true,
-    customCss: '.swagger-ui .topbar { display: none }',
-    customSiteTitle: 'Natours API Documentation',
-  }),
-);
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/auth', authRouter);

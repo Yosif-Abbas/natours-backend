@@ -12,14 +12,10 @@ const options = {
         name: 'API Support',
         email: 'support@natours.com',
       },
-      license: {
-        name: 'MIT',
-        url: 'https://opensource.org/licenses/MIT',
-      },
     },
     servers: [
       {
-        url: 'https://api.natours.com/api/v1',
+        url: 'https://natours-backend-two.vercel.app/api/v1',
         description: 'Production server',
       },
       {
