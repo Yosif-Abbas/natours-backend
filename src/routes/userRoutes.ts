@@ -10,9 +10,9 @@ import {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
-} from '../controllers/userController';
+} from '../api/user';
 
-import { protect, restrictTo } from '../controllers/authController';
+import { protect, restrictTo } from '../api/auth';
 
 const router = express.Router();
 

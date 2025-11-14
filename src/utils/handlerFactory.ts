@@ -1,9 +1,9 @@
 import { Model as MongooseModel, PopulateOptions } from 'mongoose';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
-import AppError from '../utils/appError';
-import catchAsync from '../utils/catchAsync';
-import APIFeatures from '../utils/apiFeatures';
+import AppError from './appError';
+import catchAsync from './catchAsync';
+import APIFeatures from './apiFeatures';
 
 export function getAll<T>(Model: MongooseModel<T>): RequestHandler {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {

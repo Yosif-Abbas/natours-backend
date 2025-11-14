@@ -12,8 +12,8 @@ import {
   getDistances,
   uploadTourImages,
   resizeTourImages,
-} from '../controllers/tourController';
-import { protect, restrictTo } from '../controllers/authController';
+} from '../api/tour';
+import { protect, restrictTo } from '../api/auth';
 // import { cacheMiddleware, cacheResponse, clearCacheMiddleware } from '../middleware/cache';
 import reviewRouter from './reviewRoutes';
 

@@ -7,8 +7,8 @@ import {
   updateReview,
   deleteReview,
   checkUser,
-} from '../controllers/reviewController';
-import { protect, restrictTo } from '../controllers/authController';
+} from '../api/review';
+import { protect, restrictTo } from '../api/auth';
 
 const router = express.Router({ mergeParams: true });
 

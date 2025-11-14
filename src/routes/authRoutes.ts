@@ -8,7 +8,7 @@ import {
   forgotPassword,
   resetPassword,
   updatePassword,
-} from '../controllers/authController';
+} from '../api/auth';
 
 const router = express.Router();
 

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import Review from '../models/reviewModel';
 import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
-import { deleteOne, createOne, getOne, updateOne, getAll } from './handlerFactory';
+import { deleteOne, createOne, getOne, updateOne, getAll } from '../utils/handlerFactory';
 import { IUser } from '../types/user';
 
 export const checkTourUserIds = (req: Request, res: Response, next: NextFunction) => {

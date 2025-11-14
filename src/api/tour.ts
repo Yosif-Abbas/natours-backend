@@ -9,7 +9,7 @@ import Tour from '../models/tourModel';
 import AppError from '../utils/appError';
 
 import catchAsync from '../utils/catchAsync';
-import { deleteOne, updateOne, createOne, getOne, getAll } from './handlerFactory';
+import { deleteOne, updateOne, createOne, getOne, getAll } from '../utils/handlerFactory';
 
 export function aliasTopTours(req: Request, res: Response, next: NextFunction) {
   req.query.limit = '5';

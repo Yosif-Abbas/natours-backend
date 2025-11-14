@@ -1,7 +1,7 @@
 import express from 'express';
 
-import { getCheckoutSession } from '../controllers/bookingController';
-import { protect } from '../controllers/authController';
+import { getCheckoutSession } from '../api/booking';
+import { protect } from '../api/auth';
 
 const router = express.Router();
 

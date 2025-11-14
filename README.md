@@ -174,34 +174,19 @@ Logs are stored in the `logs/` directory with daily rotation:
    docker-compose up -d
    ```
 
-### Manual Deployment
-
-1. **Set production environment variables**
-2. **Install PM2 for process management**
-
-   ```bash
-   npm install -g pm2
-   pm2 start server.js --name natours-api
-   ```
-
-3. **Set up reverse proxy** (Nginx recommended)
-4. **Configure SSL certificates**
-5. **Set up monitoring and logging**
-
 ## 📁 Project Structure
 
 ```
-natours/
+natours-backend/
 ├── config/                 # Configuration files
-│   ├── envValidation.js    # Environment validation
-│   ├── redis.js           # Redis configuration
-│   └── swagger.js         # API documentation
+│   ├── envValidation.ts    # Environment validation
+│   ├── redis.ts           # Redis configuration
+│   └── swagger.ts         # API documentation
 ├── controllers/           # Route controllers
 ├── models/               # Mongoose models
 ├── routes/               # Express routes
 ├── tests/                # Test files
 ├── utils/                # Utility functions
-├── views/                # Pug templates
 ├── public/               # Static files
 └── logs/                 # Log files (created at runtime)
 ```
@@ -210,11 +195,13 @@ natours/
 
 ### Authentication
 
-- `POST /api/v1/users/signup` - User registration
-- `POST /api/v1/users/login` - User login
-- `POST /api/v1/users/logout` - User logout
-- `POST /api/v1/users/forgotPassword` - Password reset request
-- `PATCH /api/v1/users/resetPassword/:token` - Password reset
+- `POST /api/v1/auth/signup` - User registration
+- `POST /api/v1/auth/login` - User login
+- `POST /api/v1/auth/logout` - User logout
+- `POST /api/v1/auth/forgot-password` - Password reset request
+- `PATCH /api/v1/auth/reset-password/:token` - Password reset
+- `POST /api/v1/auth/refresh-token` - Refresh access token
+- `PATCH /api/v1/auth/update-my-password` - Update current user's password
 
 ### Tours
 
@@ -241,31 +228,3 @@ natours/
 - `GET /api/v1/bookings/:id` - Get specific booking
 - `PATCH /api/v1/bookings/:id` - Update booking
 - `DELETE /api/v1/bookings/:id` - Delete booking
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the ISC License.
-
-## 🆘 Support
-
-For support, email support@natours.com or create an issue in the repository.
-
-## 🔄 Recent Updates
-
-- ✅ Added environment variable validation
-- ✅ Updated to Mongoose 8.x
-- ✅ Implemented Redis caching
-- ✅ Added comprehensive API documentation
-- ✅ Set up Jest testing framework
-- ✅ Implemented Winston logging
-- ✅ Enhanced security configurations
-- ✅ Added CORS support
-- ✅ Created Docker configuration

@@ -7,7 +7,7 @@ import fs from 'fs';
 import User from '../models/userModel';
 import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
-import { deleteOne, updateOne, getOne, getAll } from './handlerFactory';
+import { deleteOne, updateOne, getOne, getAll } from '../utils/handlerFactory';
 
 function filterObj(obj: Record<string, string>, ...allowedFields: Array<string>) {
   const newObj: Record<string, string | number | boolean | Array<string>> = {};

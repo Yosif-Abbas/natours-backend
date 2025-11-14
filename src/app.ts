@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+import mongoose from 'mongoose';
 
 import swaggerUi from 'swagger-ui-express';
 
@@ -14,7 +15,7 @@ import cors from 'cors';
 import specs from './config/swagger';
 
 import AppError from './utils/appError';
-import globalErrorHandler from './controllers/errorController';
+import globalErrorHandler from './utils/error';
 
 import tourRouter from './routes/tourRoutes';
 import authRouter from './routes/authRoutes';
@@ -28,8 +29,19 @@ import config from './config/envValidation';
 
 const app = express();
 
+const DB = config.database.url;
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log('DB connection successful');
+  })
+  .catch((err: unknown) => {
+    console.error('DB connection failed', err!);
+    process.exit(1);
+  });
+
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 
 // 1️⃣ CORS Configuration
 // const corsOptions = {
