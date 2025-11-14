@@ -1,4 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
+import path from 'path';
 import config from './envValidation';
 
 const options = {
@@ -300,7 +301,7 @@ const options = {
       },
     },
   },
-  apis: ['src/routes/*.ts', 'src/controllers/*.ts'],
+  apis: [path.join(__dirname, '../routes/*.ts'), path.join(__dirname, '../api/*.ts')],
 };
 
 const specs = swaggerJsdoc(options);
