@@ -13,10 +13,10 @@ mongoose
     process.exit(1);
   });
 
-const { port } = config;
+// const { port } = config;
 
-app.listen(port, () => {
-  console.log(`App running on port: ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`App running on port: ${port}`);
+// });
 
 export default app;
