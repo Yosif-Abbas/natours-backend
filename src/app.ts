@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import mongoose from 'mongoose';
 
 import swaggerUi from 'swagger-ui-express';
 
@@ -28,17 +27,6 @@ import bookingRouter from './routes/bookingRoutes';
 import config from './config/envValidation';
 
 const app = express();
-
-const DB = config.database.url;
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log('DB connection successful');
-  })
-  .catch((err: unknown) => {
-    console.error('DB connection failed', err!);
-    process.exit(1);
-  });
 
 app.set('view engine', 'pug');
 // app.set('views', path.join(__dirname, 'views'));
